@@ -1,5 +1,5 @@
 clc;
 clear;
 disp('¿ªÊ¼');
-prepareTrainingData('./dataSets/stl-10/train.mat',3);
+[t,v]=prepareTrainingData('./dataSets/stl-10/train-lbp-all-folds.mat',1);
 disp('½áÊø');
