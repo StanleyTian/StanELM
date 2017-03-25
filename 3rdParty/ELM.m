@@ -41,13 +41,15 @@ REGRESSION=0;
 CLASSIFIER=1;
 
 %%%%%%%%%%% Load training dataset
-train_data=load(TrainingData_File);%载入原始训练集。原始的训练集每行代表一个数据，每一行的第一位是其类别，后面的是特征
+% train_data=load(TrainingData_File);%载入原始训练集。原始的训练集每行代表一个数据，每一行的第一位是其类别，后面的是特征
+train_data = TrainingData_File;% 2017年03月25日修改，直接读取mat数据
 T=train_data(:,1)';%读取训练集的第一列，并将结果进行转置，作为一个行向量赋值给T，这个是训练集的标准结果
 P=train_data(:,2:size(train_data,2))';%读取训练集的第二~最后一列，转置后赋值给P，这个是实际训练的内容
 clear train_data;                                   %   Release raw training data array
 
 %%%%%%%%%%% Load testing dataset 同训练集，载入测试集，并将其结果TP统一放在TV下
-test_data=load(TestingData_File);
+% test_data=load(TestingData_File);
+test_data = TestingData_File; % 2017年03月25日修改，直接读取mat数据
 TV.T=test_data(:,1)';
 TV.P=test_data(:,2:size(test_data,2))';
 clear test_data;                                    %   Release raw testing data array
@@ -143,12 +145,12 @@ OutputWeight=pinv(H') * T';%求解H'的伪逆矩阵并与T'相乘  % implementation without
 %Guang-Bin Huang, Hongming Zhou, Xiaojian Ding, and Rui Zhang, "Extreme Learning Machine for Regression and Multi-Class Classification," submitted to IEEE Transactions on Pattern Analysis and Machine Intelligence, October 2010. 
 
 end_time_train=cputime;
-TrainingTime=end_time_train-start_time_train        %   Calculate CPU time (seconds) spent for training ELM
+TrainingTime=end_time_train-start_time_train  ;      %   Calculate CPU time (seconds) spent for training ELM
 
 %%%%%%%%%%% Calculate the training accuracy
 Y=(H' * OutputWeight)';                             %   Y: the actual output of the training data
 if Elm_Type == REGRESSION
-    TrainingAccuracy=sqrt(mse(T - Y))               %   Calculate training accuracy (RMSE) for regression case
+    TrainingAccuracy=sqrt(mse(T - Y))      ;         %   Calculate training accuracy (RMSE) for regression case
 end
 clear H;
 
@@ -179,10 +181,10 @@ switch lower(ActivationFunction)
 end
 TY=(H_test' * OutputWeight)';                       %   TY: the actual output of the testing data
 end_time_test=cputime;
-TestingTime=end_time_test-start_time_test           %   Calculate CPU time (seconds) spent by ELM predicting the whole testing data
+TestingTime=end_time_test-start_time_test ;          %   Calculate CPU time (seconds) spent by ELM predicting the whole testing data
 
 if Elm_Type == REGRESSION
-    TestingAccuracy=sqrt(mse(TV.T - TY))            %   Calculate testing accuracy (RMSE) for regression case
+    TestingAccuracy=sqrt(mse(TV.T - TY)) ;           %   Calculate testing accuracy (RMSE) for regression case
 end
 
 if Elm_Type == CLASSIFIER
@@ -197,7 +199,7 @@ if Elm_Type == CLASSIFIER
             MissClassificationRate_Training=MissClassificationRate_Training+1;
         end
     end
-    TrainingAccuracy=1-MissClassificationRate_Training/size(T,2)
+    TrainingAccuracy=1-MissClassificationRate_Training/size(T,2);
     for i = 1 : size(TV.T, 2)
         [x, label_index_expected]=max(TV.T(:,i));
         [x, label_index_actual]=max(TY(:,i));
@@ -205,5 +207,5 @@ if Elm_Type == CLASSIFIER
             MissClassificationRate_Testing=MissClassificationRate_Testing+1;
         end
     end
-    TestingAccuracy=1-MissClassificationRate_Testing/size(TV.T,2)  
+    TestingAccuracy=1-MissClassificationRate_Testing/size(TV.T,2);  
 end
