@@ -24,6 +24,6 @@ function color_image = array_to_color_image(array,width,height)
     C(:,:,2) = greenMatrix; 
     C(:,:,3) = blueMatrix; 
     
-    imshow(redMatrix);
+    %imshow(redMatrix);
     color_image = C;
 end
