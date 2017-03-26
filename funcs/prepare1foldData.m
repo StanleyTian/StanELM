@@ -6,7 +6,7 @@ function [ featureMatWithLabel ] = prepare1foldData( trainingData,foldIndex)
     % 提取lbp特征
     fold.X = trainingData.X(trainingData.fold_indices{foldIndex},:);
     fold.y = trainingData.y(trainingData.fold_indices{foldIndex});
-    featureMat = zeros(size(fold.X,1),59);%存储特征的矩阵
+    featureMat = zeros(size(fold.X,1),256);%存储特征的矩阵
 
     for i=1:1:size(fold.X,1)
         imgData = fold.X(i,:);

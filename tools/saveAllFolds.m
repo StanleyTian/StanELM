@@ -9,7 +9,7 @@ for i=1:1:10
     AllFold{i} = prepare1foldData(trainingData,i);
 end
 %%保存数据
-outputfile = './dataSets/stl-10/train-lbp-all-folds.mat';
+outputfile = './dataSets/stl-10/train-lbp-origin-all-folds.mat';
 
 save(outputfile,'AllFold');%Sample?Labels ?这里注意，后面的变量名要加单引号
 

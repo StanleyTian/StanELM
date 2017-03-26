@@ -1,4 +1,4 @@
-function [TrainingTime, TestingTime, TrainingAccuracy, TestingAccuracy,inputWeight,bias] = elm(TrainingData_File, TestingData_File, Elm_Type, NumberofHiddenNeurons, ActivationFunction)
+function [TrainingTime, TestingTime, TrainingAccuracy, TestingAccuracy,inputWeight,bias] = elmWithInput(TrainingData_File, TestingData_File, Elm_Type, NumberofHiddenNeurons, ActivationFunction,iw,b)
 
 % Usage: elm(TrainingData_File, TestingData_File, Elm_Type, NumberofHiddenNeurons, ActivationFunction)
 % OR:    [TrainingTime, TestingTime, TrainingAccuracy, TestingAccuracy] = elm(TrainingData_File, TestingData_File, Elm_Type, NumberofHiddenNeurons, ActivationFunction)
@@ -104,8 +104,13 @@ end                                                 %   end if of Elm_Type
 start_time_train=cputime;
 
 %%%%%%%%%%% Random generate input weights InputWeight (w_i) and biases BiasofHiddenNeurons (b_i) of hidden neurons
-InputWeight=rand(NumberofHiddenNeurons,NumberofInputNeurons)*2-1;%生成-1~1之间随机输入权重 row=隐藏神经元数（参数输入）col=每个数据的特征数
-BiasofHiddenNeurons=rand(NumberofHiddenNeurons,1);%偏置大小为0~1的随机数， row=隐藏神经元数（参数输入）col=1
+%InputWeight=rand(NumberofHiddenNeurons,NumberofInputNeurons)*2-1;%生成-1~1之间随机输入权重 row=隐藏神经元数（参数输入）col=每个数据的特征数
+%BiasofHiddenNeurons=rand(NumberofHiddenNeurons,1);%偏置大小为0~1的随机数， row=隐藏神经元数（参数输入）col=1
+% 载入预先设置好的inputWeight和bias
+InputWeight=iw;%生成-1~1之间随机输入权重 row=隐藏神经元数（参数输入）col=每个数据的特征数
+BiasofHiddenNeurons=b;%偏置大小为0~1的随机数， row=隐藏神经元数（参数输入）col=1
+
+
 tempH=InputWeight*P;%将权重与原始数据相乘，得到一个临时的H矩阵
 clear P;                                            %   Release input of training data 
 ind=ones(1,NumberofTrainingData);
