@@ -3,7 +3,7 @@ clear;
 disp('¿ªÊ¼');
 [t,v]=prepareTrainingData('./dataSets/stl-10/train-lbp-all-folds.mat',1);
 
-total = 100;
+total = 20;
 dataForVisual = zeros(total,2);
 for i=1:1:total
 [TrainingTime, TestingTime, TrainingAccuracy, TestingAccuracy] = ELM(t, v, 1, 2000, 'sig');
