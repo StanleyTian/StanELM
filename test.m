@@ -5,10 +5,10 @@ clear;
 clc;
 clear;
 disp('¿ªÊ¼');
-[t,v]=prepareTrainingData('./dataSets/stl-10/train-lbp-origin-all-folds.mat',1);
+a=load('./dataSets/test/iwb.mat');
+a.bias;
+a.inputWeight;
+randomTuneInputWeightAndBias(a.inputWeight,a.bias,0.0001);
 
-
-[~, ~, TrainingAccuracy, TestingAccuracy,iw,b] = ELM(t, v, 1, 200, 'sig');
-[~, ~, TrainingAccuracy2, TestingAccuracy2,~,~] = elmWithInput(t, v, 1, 200, 'sig',iw,b);
 
 disp('½áÊø');

@@ -5,6 +5,7 @@ disp('开始');
 [t,v]=prepareTrainingData('./dataSets/stl-10/train-lbp-origin-all-folds.mat',1);
 % 2. 初始训练 采用随机inputweight和bias
 [ trainingAccuracy,validatingAccuracy,inputWeight,bias,isMinimumGap,currentGroupStatus ] = initialTraining(t,v,200,'sig',20);
+% 3. 使用初始种子iw和b来进行遗传算法计算
 [~, ~, TrainingAccuracy2, TestingAccuracy2,~,~] = elmWithInput(t, v, 1, 200, 'sig',inputWeight,bias);
 % total = 20;
 % dataForVisual = zeros(total,2);
