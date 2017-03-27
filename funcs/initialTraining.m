@@ -27,8 +27,8 @@ allInputWeightAndBias{i,2} = b;
 fprintf('已完成: %i/%i\n',i,iteration);
 end
 currentGroupStatus = dataForVisual;
-plot(dataForVisual);title('初始化数据');
-legend('训练集准确率','验证集准确率');
+%figure;plot(dataForVisual);title('初始化数据');
+%legend('训练集准确率','验证集准确率');
 
 [~,trainIndex] = max(dataForVisual(:,1));
 [~,validIndex] = max(dataForVisual(:,2));
@@ -37,8 +37,8 @@ fprintf('               训练集    验证集\n');
 fprintf('最高训练集准确率: %.2f%% - %.2f%%\n',dataForVisual(trainIndex,1)*100,dataForVisual(trainIndex,2)*100);
 fprintf('最高验证集准确率: %.2f%% - %.2f%%\n',dataForVisual(validIndex,1)*100,dataForVisual(validIndex,2)*100);
 fprintf('最小准确率差距: %.2f%%（%.2f%% - %.2f%%）\n',abs(dataForVisual(anotherIndex,1)-dataForVisual(anotherIndex,2))*100,dataForVisual(anotherIndex,1)*100,dataForVisual(anotherIndex,2)*100);
-trainingAccuracy = dataForVisual(validIndex,1)*100;
-validatingAccuracy = dataForVisual(validIndex,2)*100;
+trainingAccuracy = dataForVisual(validIndex,1);
+validatingAccuracy = dataForVisual(validIndex,2);
 inputWeight = allInputWeightAndBias{validIndex,1};
 bias = allInputWeightAndBias{validIndex,2};
 if validIndex == anotherIndex

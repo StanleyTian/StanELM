@@ -1,4 +1,5 @@
-function [TrainingTime, TestingTime, TrainingAccuracy, TestingAccuracy,inputWeight,bias] = elmWithInput(TrainingData_File, TestingData_File, Elm_Type, NumberofHiddenNeurons, ActivationFunction,iw,b)
+function [TrainingTime, TestingTime, TrainingAccuracy, TestingAccuracy,inputWeight,bias]...
+    = elmWithInput(TrainingData_File, TestingData_File, Elm_Type, NumberofHiddenNeurons, ActivationFunction,iw,b)
 
 % Usage: elm(TrainingData_File, TestingData_File, Elm_Type, NumberofHiddenNeurons, ActivationFunction)
 % OR:    [TrainingTime, TestingTime, TrainingAccuracy, TestingAccuracy] = elm(TrainingData_File, TestingData_File, Elm_Type, NumberofHiddenNeurons, ActivationFunction)
