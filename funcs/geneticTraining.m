@@ -14,13 +14,13 @@
 % 时间：2017年03月26日
 
 function [ trainingAccuracy,validatingAccuracy,inputWeight,bias,isMinimumGap,currentGroupStatus ] ...
-    = geneticTraining( trainingData,validatingData,iwOrigin,bOrigin,neuronCount,activationMethod,iteration )
+    = geneticTraining( trainingData,validatingData,iwOrigin,bOrigin,neuronCount,activationMethod,iteration,mutationRate)
 
     dataForVisual = zeros(iteration,2);
     allInputWeightAndBias = cell(iteration,2);
     for i=1:1:iteration
         % 执行变异操作
-        [iwNew,bNew] = randomTuneInputWeightAndBias(iwOrigin,bOrigin,0.01);
+        [iwNew,bNew] = randomTuneInputWeightAndBias(iwOrigin,bOrigin,mutationRate);
         [TrainingTime, TestingTime, TrainingAccuracy, TestingAccuracy,iw,b]...
             = elmWithInput(trainingData,validatingData,1,neuronCount,activationMethod,iwNew,bNew);
         dataForVisual(i,:) = [TrainingAccuracy, TestingAccuracy];
