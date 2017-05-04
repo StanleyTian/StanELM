@@ -1,14 +1,14 @@
-clc;
-clear;
-disp('开始');
+% 该函数用来使用不同隐层节点数来循环测试数据集，比如从200个节点至5000个节点，结果
+% 会以图像折线图显示
+clc;clear;disp('开始');
 % 参数设置区
 mutationRate = 0.001;
-
-% 2. 初始训练 采用随机inputweight和bias
 hiddenNodesStart = 100;
 hiddenNodesEnd = 5000;
+activationFunction = 'sig';
 % 1. 准备数据
-[t,v]=prepareTrainingData('./dataSets/stl-10/train-lbp-origin-all-folds.mat',1);
+%[t,v]=prepareTrainingData('./dataSets/stl-10/train-lbp-origin-all-folds.mat',1);% stl-10 使用这个
+[t,v]=prepareTrainingDataForUstbPlate9('./dataSets/ustb-plate9/ustb-plate9-train.mat','./dataSets/ustb-plate9/ustb-plate9-test.mat','originLbp');% ustb-plate9 使用这个
 % 2. 开始训练 采用随机inputweight和bias
 history =[];
 xAxis = [];
@@ -18,7 +18,7 @@ while 1
         break;
     end
     [TrainingTime, TestingTime, TrainingAccuracy, TestingAccuracy,iw,b] ...
-    = ELM(t, v, 1, i, 'sin');
+    = ELM(t, v, 1, i, activationFunction);
     xAxis = [xAxis;i];
     history = [history;TrainingAccuracy,TestingAccuracy];
     figure(1);

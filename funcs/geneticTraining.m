@@ -13,40 +13,41 @@
 % 作者：史丹利复合田
 % 时间：2017年03月26日
 
-function [ trainingAccuracy,validatingAccuracy,inputWeight,bias,isMinimumGap,currentGroupStatus ] ...
-    = geneticTraining( trainingData,validatingData,iwOrigin,bOrigin,neuronCount,activationMethod,iteration,mutationRate)
+function [ trainingAccuracy,validatingAccuracy,inputWeight,bias,isMinimumGap,currentGroupStatus,inputWeight4Train,bias4Train,maskNew ] ...
+    = geneticTraining( trainingData,validatingData,iwOrigin,bOrigin,neuronCount,activationMethod,iteration,mutationRate,mask)
 
     dataForVisual = zeros(iteration,2);
     allInputWeightAndBias = cell(iteration,2);
+    maskNew = zeros(size(mask));
     for i=1:1:iteration
         % 执行变异操作
-        [iwNew,bNew] = randomTuneInputWeightAndBias(iwOrigin,bOrigin,mutationRate);
+        [iwNew,bNew,maskNew] = randomTuneInputWeightAndBias(iwOrigin,bOrigin,mutationRate,mask);
         [TrainingTime, TestingTime, TrainingAccuracy, TestingAccuracy,iw,b]...
             = elmWithInput(trainingData,validatingData,1,neuronCount,activationMethod,iwNew,bNew);
         dataForVisual(i,:) = [TrainingAccuracy, TestingAccuracy];
         allInputWeightAndBias{i,1} = iw;
         allInputWeightAndBias{i,2} = b;
-
         %drawnow; % 实时显示
         %fprintf('已完成: %i/%i\n',i,iteration);
     end
     
     currentGroupStatus = dataForVisual;
     %figure;plot(dataForVisual);title('当前组数据');drawnow;
-    legend('训练集准确率','验证集准确率');
+    %legend('训练集准确率','验证集准确率');
 
     [~,trainIndex] = max(dataForVisual(:,1));
     [~,validIndex] = max(dataForVisual(:,2));
     [~,anotherIndex] = min(abs(dataForVisual(:,1)-dataForVisual(:,2)));
-    fprintf('               训练集    验证集\n');
-    fprintf('最高训练集准确率: %.2f%% - %.2f%%\n',dataForVisual(trainIndex,1)*100,dataForVisual(trainIndex,2)*100);
-    fprintf('最高验证集准确率: %.2f%% - %.2f%%\n',dataForVisual(validIndex,1)*100,dataForVisual(validIndex,2)*100);
-    fprintf('最小准确率差距: %.2f%%（%.2f%% - %.2f%%）\n',abs(dataForVisual(anotherIndex,1)-dataForVisual(anotherIndex,2))*100,dataForVisual(anotherIndex,1)*100,dataForVisual(anotherIndex,2)*100);
-    
+%     fprintf('               训练集    验证集\n');
+%     fprintf('最高训练集准确率: %.2f%% - %.2f%%\n',dataForVisual(trainIndex,1)*100,dataForVisual(trainIndex,2)*100);
+%     fprintf('最高验证集准确率: %.2f%% - %.2f%%\n',dataForVisual(validIndex,1)*100,dataForVisual(validIndex,2)*100);
+%     fprintf('最小准确率差距: %.2f%%（%.2f%% - %.2f%%）\n',abs(dataForVisual(anotherIndex,1)-dataForVisual(anotherIndex,2))*100,dataForVisual(anotherIndex,1)*100,dataForVisual(anotherIndex,2)*100); 
     trainingAccuracy = dataForVisual(validIndex,1);
     validatingAccuracy = dataForVisual(validIndex,2);
     inputWeight = allInputWeightAndBias{validIndex,1};
     bias = allInputWeightAndBias{validIndex,2};
+    inputWeight4Train = allInputWeightAndBias{trainIndex,1};
+    bias4Train = allInputWeightAndBias{trainIndex,2};
     if validIndex == anotherIndex
         isMinimumGap = 1;%true
     else

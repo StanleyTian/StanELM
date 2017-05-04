@@ -3,13 +3,18 @@ clear;
 disp('开始');
 % 参数设置区
 mutationRate = 0.001;
-hiddenNodes = 200;
+hiddenNodes = 300;
+activationFunction = 'sig';%sig,sin,hardlim,tribas,radbas
 % 1. 准备数据
-[t,v]=prepareTrainingData('./dataSets/stl-10/train-lbp-origin-all-folds.mat',100);
+%[t,v]=prepareTrainingData('./dataSets/stl-10/train-lbp-origin-all-folds.mat',1);
+[t,v]=prepareTrainingDataForUstbPlate9...
+    ('./dataSets/ustb-plate9/ustb-plate9-test.mat',...
+    './dataSets/ustb-plate9/ustb-plate9-train.mat','originLbp');% ustb-plate9 使用这个
+
 % 2. 初始训练 采用随机inputweight和bias
 
 [ trainingAccuracy,validatingAccuracy,inputWeight,bias,isMinimumGap,currentGroupStatus ] ...
-    = initialTraining(t,v,hiddenNodes,'sig',1);
+    = initialTraining(t,v,hiddenNodes,activationFunction,1);
 lastValidatingAccuracy = validatingAccuracy;
 lastTrainingAccuracy = trainingAccuracy;
 history = [trainingAccuracy,validatingAccuracy];
@@ -18,8 +23,8 @@ fprintf('第%i代：训练集：%.2f%% 验证集：%.2f%%\n',generation,trainingAccuracy*10
 while validatingAccuracy <= 0.9
 % 3. 使用初始种子iw和b来进行遗传算法计算
     [ currentTrainingAccuracy,currentValidatingAccuracy,mutatedIw,mutatedBias,isMinimumGap2,currentGroupStatus2 ] ...
-        = geneticTraining(t,v,inputWeight,bias,hiddenNodes,'sig',20,mutationRate);
-    if currentValidatingAccuracy > lastValidatingAccuracy %|| currentTrainingAccuracy > lastTrainingAccuracy %新的好
+        = geneticTraining(t,v,inputWeight,bias,hiddenNodes,activationFunction,20,mutationRate);
+    if currentValidatingAccuracy > lastValidatingAccuracy || currentTrainingAccuracy > lastTrainingAccuracy %新的好
         inputWeight = mutatedIw;
         bias = mutatedBias;
         lastValidatingAccuracy = currentValidatingAccuracy;

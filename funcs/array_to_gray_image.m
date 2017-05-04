@@ -6,11 +6,5 @@
 % 这样输出的图像大小就是 128*128 ，一张标准的灰度图
 
 function gray_image = array_to_gray_image(array,width)
-%     C = uint8(zeros(width,height));%新建一个空白图像
-% 
-%     %每个通道向量转换为矩阵
-%     C = 
-
-
-    gray_image = vec2mat(array,width);;
+    gray_image = vec2mat(array,width);
 end
